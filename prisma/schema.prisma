@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+
+}
+
+enum Role {
+  ADMIN
+  HR
+  EMPLOYEE
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String        @id @default(uuid())
+  name          String
+  email         String        @unique
+  password      String
+  role          Role          @default(EMPLOYEE)
+  phone         String?
+  address       String?
+
+  departmentId  String?
+  department    Department?   @relation(fields: [departmentId], references: [id])
+
+  position      String?
+  salary        Float?
+
+  joiningDate   DateTime?
+
+  status        AccountStatus @default(ACTIVE)
+
+// Relations
+  leaveRequests  LeaveRequest[]
+  reviewedLeaves LeaveRequest[] @relation("LeaveReviewer")
+  salaries       SalaryRecord[]
+  auditLogs      AuditLog[]     @relation("UserAuditLogs")
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String   @unique
+
+  users     User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+
+model LeaveRequest {
+  id          String      @id @default(uuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+
+  type        String
+  fromDate    DateTime
+  toDate      DateTime
+  reason      String
+
+  status      LeaveStatus @default(PENDING)
+
+  reviewedBy  String?
+  reviewer    User?       @relation("LeaveReviewer", fields: [reviewedBy], references: [id])
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model SalaryRecord {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  amount      Float
+  month       Int
+  year        Int
+
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+
+  userId      String
+  user        User     @relation("UserAuditLogs", fields: [userId], references: [id])
+
+  action      String
+  target      String?
+  details     String?
+
+  createdAt   DateTime @default(now())
+}
+
+
