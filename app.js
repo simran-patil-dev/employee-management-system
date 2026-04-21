@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
 const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./swagger");
-
-
+const swaggerSpec = require("./src/swagger");
 
 const authRoutes = require('./src/modules/auth/auth.routes');
 const employeeRoutes = require('./src/modules/employees/employee.routes');
