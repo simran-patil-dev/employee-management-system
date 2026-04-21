@@ -5,6 +5,28 @@ const controller = require('./employee.controller');
 const authMiddleware = require('../../shared/middleware/authMiddleware');
 const roleGuard = require('../../shared/middleware/roleGuard');
 
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Employees
+ *   description: Employee management
+ */
+
+/**
+ * @swagger
+ * /employees:
+ *   post:
+ *     summary: Create employee
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: Employee created
+ */
 // CREATE
 router.post(
   '/',
@@ -13,6 +35,20 @@ router.post(
   controller.create
 );
 
+
+
+/**
+ * @swagger
+ * /employees:
+ *   get:
+ *     summary: Get all employees
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of employees
+ */
 // GET ALL
 router.get(
   '/',
@@ -21,6 +57,28 @@ router.get(
   controller.getAll
 );
 
+
+
+
+
+/**
+ * @swagger
+ * /employees/{id}:
+ *   get:
+ *     summary: Get single employee
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Employee data
+ */
 // GET ONE
 router.get(
   '/:id',
@@ -29,6 +87,20 @@ router.get(
   controller.getOne
 );
 
+
+
+/**
+ * @swagger
+ * /employees/{id}:
+ *   put:
+ *     summary: Update employee
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Employee updated
+ */
 // UPDATE
 router.put(
   '/:id',
@@ -37,6 +109,20 @@ router.put(
   controller.update
 );
 
+
+
+/**
+ * @swagger
+ * /employees/{id}:
+ *   delete:
+ *     summary: Delete employee
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Employee deleted
+ */
 // DELETE
 router.delete(
   '/:id',
@@ -45,6 +131,20 @@ router.delete(
   controller.remove
 );
 
+
+
+/**
+ * @swagger
+ * /employees/{id}/salary:
+ *   patch:
+ *     summary: Update employee salary
+ *     tags: [Employees]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Salary updated
+ */
 router.patch(
   '/:id/salary',
   authMiddleware,
