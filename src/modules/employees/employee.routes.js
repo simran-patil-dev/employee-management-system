@@ -153,11 +153,17 @@ router.put(
  *     tags: [Employees]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         example: ae487dea-6451-4b23-a763-810b2434632c
  *     responses:
  *       200:
  *         description: Employee deleted
  */
-// DELETE
 router.delete(
   '/:id',
   authMiddleware,
