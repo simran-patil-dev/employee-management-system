@@ -5,8 +5,6 @@ const controller = require('./leave.controller');
 const authMiddleware = require('../../shared/middleware/authMiddleware');
 const roleGuard = require('../../shared/middleware/roleGuard');
 
-
-
 /**
  * @swagger
  * tags:
@@ -51,12 +49,11 @@ const roleGuard = require('../../shared/middleware/roleGuard');
 router.post('/', authMiddleware, roleGuard(['EMPLOYEE']), controller.applyLeave);
 
 
-
 /**
  * @swagger
  * /leaves:
  *   get:
- *     summary: Get all leaves
+ *     summary: Get all leaves (HR/Admin)
  *     tags: [Leaves]
  *     security:
  *       - bearerAuth: []
@@ -71,21 +68,40 @@ router.get('/', authMiddleware, roleGuard(['HR', 'ADMIN']), controller.getAllLea
  * @swagger
  * /leaves/{id}/status:
  *   patch:
- *     summary: Update leave status
+ *     summary: Update leave status (HR/Admin)
  *     tags: [Leaves]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 example: APPROVED
  *     responses:
  *       200:
  *         description: Status updated
  */
 router.patch('/:id/status', authMiddleware, roleGuard(['HR', 'ADMIN']), controller.updateStatus);
 
+
 /**
  * @swagger
  * /leaves/my:
  *   get:
- *     summary: Get my leaves
+ *     summary: Get my leaves (Employee)
  *     tags: [Leaves]
  *     security:
  *       - bearerAuth: []
@@ -93,7 +109,6 @@ router.patch('/:id/status', authMiddleware, roleGuard(['HR', 'ADMIN']), controll
  *       200:
  *         description: My leave records
  */
-router.get('/my', authMiddleware, roleGuard(['EMPLOYEE']), controller.getMyLeaves); // ✅ add this
-
+router.get('/my', authMiddleware, roleGuard(['EMPLOYEE']), controller.getMyLeaves);
 
 module.exports = router;

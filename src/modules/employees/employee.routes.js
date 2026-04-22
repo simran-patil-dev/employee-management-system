@@ -5,9 +5,6 @@ const controller = require('./employee.controller');
 const authMiddleware = require('../../shared/middleware/authMiddleware');
 const roleGuard = require('../../shared/middleware/roleGuard');
 
-
-
-
 /**
  * @swagger
  * tags:
@@ -34,41 +31,43 @@ const roleGuard = require('../../shared/middleware/roleGuard');
  *               - email
  *               - password
  *               - role
- *               - departmentId
  *             properties:
  *               name:
  *                 type: string
- *                 example: Rahul Sharma
+ *                 example: Sundari Patil
  *               email:
  *                 type: string
- *                 example: rahul@gmail.com
+ *                 example: sundari@gmail.com
  *               password:
  *                 type: string
- *                 example: emp123
+ *                 example: hr123
  *               role:
  *                 type: string
- *                 example: EMPLOYEE
+ *                 example: HR
  *               departmentId:
- *                 type: integer
- *                 example: 1
+ *                 type: string
+ *                 example: "2e5af24f-3622-475c-b4ac-99cf4c418dcc"
  *               phone:
  *                 type: string
- *                 example: 9876543210
+ *                 example: 9876543211
  *               address:
  *                 type: string
- *                 example: Pune, India
+ *                 example: Mumbai, India
+ *               position:
+ *                 type: string
+ *                 example: HR Manager
+ *               salary:
+ *                 type: number
+ *                 example: 50000
+ *               joiningDate:
+ *                 type: string
+ *                 format: date
+ *                 example: 2026-04-22
  *     responses:
  *       201:
  *         description: Employee created
  */
-// CREATE
-router.post(
-  '/',
-  authMiddleware,
-  roleGuard(['ADMIN', 'HR']),
-  controller.create
-);
-
+router.post('/', authMiddleware, roleGuard(['ADMIN', 'HR']), controller.create);
 
 
 /**
@@ -83,16 +82,7 @@ router.post(
  *       200:
  *         description: List of employees
  */
-// GET ALL
-router.get(
-  '/',
-  authMiddleware,
-  roleGuard(['ADMIN', 'HR']),
-  controller.getAll
-);
-
-
-
+router.get('/', authMiddleware, roleGuard(['ADMIN', 'HR']), controller.getAll);
 
 
 /**
@@ -113,14 +103,7 @@ router.get(
  *       200:
  *         description: Employee data
  */
-// GET ONE
-router.get(
-  '/:id',
-  authMiddleware,
-  roleGuard(['ADMIN', 'HR', 'EMPLOYEE']),
-  controller.getOne
-);
-
+router.get('/:id', authMiddleware, roleGuard(['ADMIN', 'HR', 'EMPLOYEE']), controller.getOne);
 
 
 /**
@@ -131,18 +114,25 @@ router.get(
  *     tags: [Employees]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               phone:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               departmentId:
+ *                 type: string
+ *               position:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Employee updated
  */
-// UPDATE
-router.put(
-  '/:id',
-  authMiddleware,
-  roleGuard(['ADMIN', 'HR', 'EMPLOYEE']),
-  controller.update
-);
-
+router.put('/:id', authMiddleware, roleGuard(['ADMIN', 'HR', 'EMPLOYEE']), controller.update);
 
 
 /**
@@ -159,38 +149,47 @@ router.put(
  *         required: true
  *         schema:
  *           type: string
- *         example: ae487dea-6451-4b23-a763-810b2434632c
  *     responses:
  *       200:
  *         description: Employee deleted
  */
-router.delete(
-  '/:id',
-  authMiddleware,
-  roleGuard(['ADMIN', 'HR']),
-  controller.remove
-);
-
+router.delete('/:id', authMiddleware, roleGuard(['ADMIN', 'HR']), controller.remove);
 
 
 /**
  * @swagger
  * /employees/{id}/salary:
  *   patch:
- *     summary: Update employee salary
+ *     summary: Update employee salary (ADMIN only)
  *     tags: [Employees]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               increment:
+ *                 type: number
+ *                 example: 5000
+ *               decrement:
+ *                 type: number
+ *                 example: 2000
+ *               bonus:
+ *                 type: number
+ *                 example: 3000
  *     responses:
  *       200:
  *         description: Salary updated
  */
-router.patch(
-  '/:id/salary',
-  authMiddleware,
-  roleGuard(['ADMIN']),
-  controller.updateSalary
-);
-
+router.patch('/:id/salary', authMiddleware, roleGuard(['ADMIN']), controller.updateSalary);
 
 module.exports = router;
