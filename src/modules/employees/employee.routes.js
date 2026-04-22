@@ -23,6 +23,40 @@ const roleGuard = require('../../shared/middleware/roleGuard');
  *     tags: [Employees]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *               - role
+ *               - departmentId
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Rahul Sharma
+ *               email:
+ *                 type: string
+ *                 example: rahul@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: emp123
+ *               role:
+ *                 type: string
+ *                 example: EMPLOYEE
+ *               departmentId:
+ *                 type: integer
+ *                 example: 1
+ *               phone:
+ *                 type: string
+ *                 example: 9876543210
+ *               address:
+ *                 type: string
+ *                 example: Pune, India
  *     responses:
  *       201:
  *         description: Employee created

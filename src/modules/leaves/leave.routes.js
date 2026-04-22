@@ -22,6 +22,28 @@ const roleGuard = require('../../shared/middleware/roleGuard');
  *     tags: [Leaves]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - fromDate
+ *               - toDate
+ *               - reason
+ *             properties:
+ *               fromDate:
+ *                 type: string
+ *                 format: date
+ *                 example: 2026-04-25
+ *               toDate:
+ *                 type: string
+ *                 format: date
+ *                 example: 2026-04-28
+ *               reason:
+ *                 type: string
+ *                 example: Medical leave
  *     responses:
  *       201:
  *         description: Leave applied
