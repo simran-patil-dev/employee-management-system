@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
-  },
+  "start": "node server.js",
+  "build": "prisma generate",
+  "postinstall": "prisma generate && prisma db push && prisma db seed"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,5 +23,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  }
+  },
+  "prisma": {
+  "seed": "node prisma/seed.js"
+}
 }
