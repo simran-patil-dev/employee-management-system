@@ -20,6 +20,18 @@ const roleGuard = require('../../shared/middleware/roleGuard');
  *     tags: [Departments]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: HR
  *     responses:
  *       201:
  *         description: Department created
