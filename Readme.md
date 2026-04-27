@@ -2,6 +2,12 @@
 
 A simple and scalable **Employee Management System (EMS)** built using **Node.js, Express, Prisma ORM, and PostgreSQL**.
 
+## 🚀 Live Demo
+
+🔗 You can explore and test the live API using Swagger UI here:
+https://employee-management-system-is4e.onrender.com/api-docs/#
+
+
 This system demonstrates real-world backend architecture with **role-based access control**, covering Admin, HR, and Employee workflows.
 
 ---
